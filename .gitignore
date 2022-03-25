@@ -6,3 +6,6 @@ others
 SuperDerpy.ini
 sync*
 *.user
+/compile_commands.json
+/superderpy
+/.cache/
