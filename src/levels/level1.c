@@ -144,14 +144,16 @@ void Level1_PreloadBitmaps(struct Game *game, void (*progress)(struct Game*, flo
 	x = 0.26;
 	draw_text(game, &x, &y, "Yours,");
 	draw_text(game, &x, &y, "Twilight Sparkle");
-	al_draw_text_with_shadow(game->menu.font, al_map_rgb(255,255,255), al_get_bitmap_width(game->level.letter)*0.5, al_get_bitmap_height(game->level.letter)*0.8, ALLEGRO_ALIGN_CENTRE, "Press enter to continue...");
+	al_draw_text_with_shadow(game->menu.font, al_map_rgb(255,255,255), al_get_bitmap_width(game->level.letter)*0.5,
+				 al_get_bitmap_height(game->level.letter)*0.8, ALLEGRO_ALIGN_CENTRE, "Press enter to continue...");
 	al_set_target_bitmap(al_get_backbuffer(game->display));
 	PROGRESS;
 
 	al_set_target_bitmap(game->level.welcome);
 	al_clear_to_color(al_map_rgba(0,0,0,0));
 	al_draw_text_with_shadow(game->menu.font_title, al_map_rgb(255,255,255), game->viewportWidth*0.5, game->viewportHeight*0.1, ALLEGRO_ALIGN_CENTRE, "Level 1");
-	al_draw_text_with_shadow(game->menu.font_subtitle, al_map_rgb(255,255,255), game->viewportWidth*0.5, game->viewportHeight*0.275, ALLEGRO_ALIGN_CENTRE, "Fluttershy");
+	al_draw_text_with_shadow(game->menu.font_subtitle, al_map_rgb(255,255,255), game->viewportWidth*0.5,
+				 game->viewportHeight*0.275, ALLEGRO_ALIGN_CENTRE, "Fluttershy");
 	PROGRESS;
 	al_set_target_bitmap(al_get_backbuffer(game->display));
 

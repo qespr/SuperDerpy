@@ -26,99 +26,110 @@
 #include "dodger/actions.h"
 
 void Dodger_Logic(struct Game *game) {
-	struct ALLEGRO_KEYBOARD_STATE keyboard;
-	al_get_keyboard_state(&keyboard);
-	if (game->level.handle_input) {
-		if (game->level.derpy_angle > 0) { game->level.derpy_angle -= 0.02; if (game->level.derpy_angle < 0) game->level.derpy_angle = 0; }
-		if (game->level.derpy_angle < 0) { game->level.derpy_angle += 0.02; if (game->level.derpy_angle > 0) game->level.derpy_angle = 0; }
-		if (al_key_down(&keyboard, ALLEGRO_KEY_UP)) {
-			game->level.derpy_y -= 0.005;
-			game->level.derpy_angle -= 0.03;
-			if (game->level.derpy_angle < -0.15) game->level.derpy_angle = -0.15;
-			/*PrintConsole(game, "Derpy Y position: %f", game->level.derpy_y);*/
-		}
-		if (al_key_down(&keyboard, ALLEGRO_KEY_DOWN)) {
-			game->level.derpy_y += 0.005;
-			game->level.derpy_angle += 0.03;
-			if (game->level.derpy_angle > 0.15) game->level.derpy_angle = 0.15;
-			/*PrintConsole(game, "Derpy Y position: %f", game->level.derpy_y);*/
-		}
-		/*if ((game->level.derpy_y > 0.6) && (game->level.flying)) {
-			SelectDerpySpritesheet(game, "run");
-			game->level.flying = false;
-			game->level.sheet_speed = tps(game, 60*0.0020/game->level.speed);
-		}
-		else if ((game->level.derpy_y <= 0.6) && (!game->level.flying)) {
-			SelectDerpySpritesheet(game, "fly");
-			game->level.flying = true;
-			game->level.sheet_speed = tps(game, 60*2.4);
-		}
-		if (!game->level.flying) game->level.sheet_speed = tps(game, 60*0.0020/game->level.speed); */
-		if (game->level.derpy_y < 0) game->level.derpy_y=0;
-		else if (game->level.derpy_y > 0.8) game->level.derpy_y=0.8;
+  struct ALLEGRO_KEYBOARD_STATE keyboard;
+  al_get_keyboard_state(&keyboard);
+  if (game->level.handle_input) { //Pokud můžeme ovládat derpy
 
-		game->level.derpy_y += game->level.derpy_angle / 30;
+    //?? změny úhlu při létání? nebylo by to moc prudké?
+    if (game->level.derpy_angle > 0) {
+      game->level.derpy_angle -= 0.02;
+      if (game->level.derpy_angle < 0) game->level.derpy_angle = 0;
+    }
+    if (game->level.derpy_angle < 0) {
+      game->level.derpy_angle += 0.02;
+      if (game->level.derpy_angle > 0) game->level.derpy_angle = 0;
+    }
+
+    //Ovládání výšky
+    if (al_key_down(&keyboard, ALLEGRO_KEY_UP)) {
+      game->level.derpy_y -= 0.005;
+      game->level.derpy_angle -= 0.03;
+      if (game->level.derpy_angle < -0.15) game->level.derpy_angle = -0.15;
+      //PrintConsole(game, "Derpy Y position: %f", game->level.derpy_y);
+    }
+    if (al_key_down(&keyboard, ALLEGRO_KEY_DOWN)) {
+      game->level.derpy_y += 0.005;
+      game->level.derpy_angle += 0.03;
+      if (game->level.derpy_angle > 0.15) game->level.derpy_angle = 0.15;
+      //PrintConsole(game, "Derpy Y position: %f", game->level.derpy_y);
+    }
+    /*if ((game->level.derpy_y > 0.6) && (game->level.flying)) {
+      SelectDerpySpritesheet(game, "run");
+      game->level.flying = false;
+      game->level.sheet_speed = tps(game, 60*0.0020/game->level.speed);
+      }
+      else if ((game->level.derpy_y <= 0.6) && (!game->level.flying)) {
+      SelectDerpySpritesheet(game, "fly");
+      game->level.flying = true;
+      game->level.sheet_speed = tps(game, 60*2.4);
+      }
+      if (!game->level.flying) game->level.sheet_speed = tps(game, 60*0.0020/game->level.speed);*/
+    if (game->level.derpy_y < 0) game->level.derpy_y=0;
+    else if (game->level.derpy_y > 0.8) game->level.derpy_y=0.8;
+
+    game->level.derpy_y += game->level.derpy_angle / 30;
+  }
+
+  int derpyx = game->level.derpy_x*game->viewportHeight*1.6;
+  int derpyy = game->level.derpy_y*game->viewportHeight;
+  int derpyw = al_get_bitmap_width(game->level.derpy);
+  int derpyh = al_get_bitmap_height(game->level.derpy);
+  int derpyo = game->viewportHeight*1.6*0.1953125-al_get_bitmap_width(game->level.derpy); /* offset */
+  struct Obstacle *tmp = game->level.dodger.obstacles;
+  while (tmp) {
+    /*PrintConsole(game, "DRAWING %f %f", tmp->x, tmp->y);*/
+    int x = (tmp->x/100.0)*game->viewportWidth;
+    int y = (tmp->y/100.0)*game->viewportHeight;
+    int w = 0, h = 0;
+    if (tmp->bitmap) {
+      w = al_get_bitmap_width(*(tmp->bitmap))/tmp->cols;
+      h = al_get_bitmap_height(*(tmp->bitmap))/tmp->rows;
+    }
+    if (x > -w) {
+      /*if (!tmp->hit)*/
+      if ((((x>=derpyx+0.38*derpyw+derpyo) && (x<=derpyx+0.94*derpyw+derpyo)) || ((x+w>=derpyx+0.38*derpyw+derpyo) && (x+w<=derpyx+0.94*derpyw+derpyo)) || ((x<=derpyx+0.38*derpyw+derpyo) && (x+w>=derpyx+0.94*derpyw+derpyo))) &&
+	  (((y>=derpyy+0.26*derpyh) && (y<=derpyy+0.76*derpyh)) || ((y+h>=derpyy+0.26*derpyh) && (y+h<=derpyy+0.76*derpyh)) || ((y<=derpyy+0.26*derpyh) && (y+h>=derpyy+0.76*derpyh)))) {
+	tmp->hit=true;
+      }
+
+      if (tmp->anim_speed) {
+	tmp->tmp_pos+=1;
+	if (tmp->tmp_pos >= tmp->anim_speed) {
+	  tmp->pos++;
+	  tmp->tmp_pos = 0;
 	}
+	if (tmp->pos>=tmp->cols*tmp->rows-tmp->blanks) tmp->pos=0;
+      }
 
-	int derpyx = game->level.derpy_x*game->viewportHeight*1.6;
-	int derpyy = game->level.derpy_y*game->viewportHeight;
-	int derpyw = al_get_bitmap_width(game->level.derpy);
-	int derpyh = al_get_bitmap_height(game->level.derpy);
-	int derpyo = game->viewportHeight*1.6*0.1953125-al_get_bitmap_width(game->level.derpy); /* offset */
-	struct Obstacle *tmp = game->level.dodger.obstacles;
-	while (tmp) {
-		/*PrintConsole(game, "DRAWING %f %f", tmp->x, tmp->y);*/
-		int x = (tmp->x/100.0)*game->viewportWidth;
-		int y = (tmp->y/100.0)*game->viewportHeight;
-		int w = 0, h = 0;
-		if (tmp->bitmap) {
-			w = al_get_bitmap_width(*(tmp->bitmap))/tmp->cols;
-			h = al_get_bitmap_height(*(tmp->bitmap))/tmp->rows;
-		}
-		if (x > -w) {
-			/*if (!tmp->hit)*/
-			if ((((x>=derpyx+0.38*derpyw+derpyo) && (x<=derpyx+0.94*derpyw+derpyo)) || ((x+w>=derpyx+0.38*derpyw+derpyo) && (x+w<=derpyx+0.94*derpyw+derpyo)) || ((x<=derpyx+0.38*derpyw+derpyo) && (x+w>=derpyx+0.94*derpyw+derpyo))) &&
-					(((y>=derpyy+0.26*derpyh) && (y<=derpyy+0.76*derpyh)) || ((y+h>=derpyy+0.26*derpyh) && (y+h<=derpyy+0.76*derpyh)) || ((y<=derpyy+0.26*derpyh) && (y+h>=derpyy+0.76*derpyh)))) {
-				tmp->hit=true;
-			}
-
-			if (tmp->anim_speed) {
-				tmp->tmp_pos+=1;
-				if (tmp->tmp_pos >= tmp->anim_speed) {
-					tmp->pos++;
-					tmp->tmp_pos = 0;
-				}
-				if (tmp->pos>=tmp->cols*tmp->rows-tmp->blanks) tmp->pos=0;
-			}
-
-			if (tmp->hit) {
-				if (tmp->points>0) tmp->bitmap = NULL;
-				game->level.hp+=0.0002*tmp->points*(((1-game->level.speed_modifier)/2.0)+1);
-				if (game->level.hp>1) game->level.hp=1;
-				//PrintConsole(game, "POINTS: %d, %f", tmp->points, tps(game, 60*0.0002*tmp->points*game->level.speed_modifier));
-				if ((game->level.hp<=0) && (!game->level.failed)) {
-					game->level.failed = true;
-					game->level.handle_input = false;
-					game->level.speed_modifier = 1;
-					TM_AddBackgroundAction(&LevelFailed, NULL, 0, "levelfailed");
-				}
-			}
-			tmp->x -= game->level.speed*game->level.speed_modifier*tmp->speed*100*al_get_bitmap_width(game->level.stage)/(float)game->viewportWidth;
-			if (tmp->callback) tmp->callback(game, tmp);
-			tmp = tmp->next;
-		} else {
-			if (tmp->next)
-				tmp->next->prev = tmp->prev;
-			if (tmp->prev)
-				tmp->prev->next = tmp->next;
-			else
-				game->level.dodger.obstacles = tmp->next;
-			struct Obstacle *t = tmp;
-			tmp = tmp->next;
-			free(t);
-		}
+      if (tmp->hit) {
+	if (tmp->points>0) tmp->bitmap = NULL;
+	game->level.hp+=0.0002*tmp->points*(((1-game->level.speed_modifier)/2.0)+1);
+	if (game->level.hp>1) game->level.hp=1;
+	//PrintConsole(game, "POINTS: %d, %f", tmp->points, tps(game, 60*0.0002*tmp->points*game->level.speed_modifier));
+	if ((game->level.hp<=0) && (!game->level.failed)) {
+	  game->level.failed = true;
+	  game->level.handle_input = false;
+	  game->level.speed_modifier = 1;
+	  TM_AddBackgroundAction(&LevelFailed, NULL, 0, "levelfailed");
 	}
-	/*if (colision) game->level.hp-=tps(game, 60*0.002);*/
+      }
+      tmp->x -= game->level.speed*game->level.speed_modifier*tmp->speed*100*al_get_bitmap_width(game->level.stage)/(float)game->viewportWidth;
+      if (tmp->callback) tmp->callback(game, tmp);
+      tmp = tmp->next;
+    } else {
+      if (tmp->next)
+	tmp->next->prev = tmp->prev;
+      if (tmp->prev)
+	tmp->prev->next = tmp->next;
+      else
+	game->level.dodger.obstacles = tmp->next;
+      //WTF??
+      struct Obstacle *t = tmp;
+      tmp = tmp->next;
+      free(t);
+    }
+  }
+  /*if (colision) game->level.hp-=tps(game, 60*0.002);*/
 
 }
 
