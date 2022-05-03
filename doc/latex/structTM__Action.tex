@@ -1,6 +1,5 @@
-\hypertarget{structTM__Action}{\section{T\-M\-\_\-\-Action Struct Reference}
-\label{structTM__Action}\index{T\-M\-\_\-\-Action@{T\-M\-\_\-\-Action}}
-}
+\hypertarget{structTM__Action}{}\doxysection{T\+M\+\_\+\+Action Struct Reference}
+\label{structTM__Action}\index{TM\_Action@{TM\_Action}}
 
 
 Timeline action.  
@@ -8,59 +7,83 @@ Timeline action.
 
 
 
-{\ttfamily \#include $<$timeline.\-h$>$}
+{\ttfamily \#include $<$timeline.\+h$>$}
 
-\subsection*{Public Attributes}
+\doxysubsection*{Data Fields}
 \begin{DoxyCompactItemize}
 \item 
-bool($\ast$ \hyperlink{structTM__Action_a7935399aa8077d154e7d1ce64f5a13c5}{function} )(struct \hyperlink{structGame}{Game} $\ast$, struct \hyperlink{structTM__Action}{T\-M\-\_\-\-Action} $\ast$, enum \hyperlink{timeline_8h_a76cf4bbb9006628ae8bcd1a4f3afdf87}{T\-M\-\_\-\-Action\-State})
+bool($\ast$ \mbox{\hyperlink{structTM__Action_a90f5cf6e2e162dfdd930c6971df139fd}{function}} )(struct \mbox{\hyperlink{structGame}{Game}} $\ast$, struct \mbox{\hyperlink{structTM__Action}{T\+M\+\_\+\+Action}} $\ast$, enum \mbox{\hyperlink{timeline_8h_a76cf4bbb9006628ae8bcd1a4f3afdf87}{T\+M\+\_\+\+Action\+State}})
 \item 
-struct \hyperlink{structTM__Arguments}{T\-M\-\_\-\-Arguments} $\ast$ \hyperlink{structTM__Action_a061dfb7f5496731aaf448a04491263ac}{arguments}
+struct \mbox{\hyperlink{structTM__Arguments}{T\+M\+\_\+\+Arguments}} $\ast$ \mbox{\hyperlink{structTM__Action_a061dfb7f5496731aaf448a04491263ac}{arguments}}
 \item 
-A\-L\-L\-E\-G\-R\-O\-\_\-\-T\-I\-M\-E\-R $\ast$ \hyperlink{structTM__Action_adf47bc086ee38527104d0113fab58386}{timer}
+A\+L\+L\+E\+G\+R\+O\+\_\+\+T\+I\+M\+ER $\ast$ \mbox{\hyperlink{structTM__Action_adf47bc086ee38527104d0113fab58386}{timer}}
 \item 
-bool \hyperlink{structTM__Action_a6ff56cc7060fa2369a3879b4244180e7}{active}
+bool \mbox{\hyperlink{structTM__Action_a6ff56cc7060fa2369a3879b4244180e7}{active}}
 \item 
-int \hyperlink{structTM__Action_a73181b4f19f197b992ed98d11d3964a8}{delay}
+int \mbox{\hyperlink{structTM__Action_a73181b4f19f197b992ed98d11d3964a8}{delay}}
 \item 
-struct \hyperlink{structTM__Action}{T\-M\-\_\-\-Action} $\ast$ \hyperlink{structTM__Action_a86d8200abe82ba1359340b6dc2e5ac5f}{next}
+struct \mbox{\hyperlink{structTM__Action}{T\+M\+\_\+\+Action}} $\ast$ \mbox{\hyperlink{structTM__Action_a86d8200abe82ba1359340b6dc2e5ac5f}{next}}
 \item 
-unsigned int \hyperlink{structTM__Action_ac0e11136dc5327f709d82e8d417bb088}{id}
+unsigned int \mbox{\hyperlink{structTM__Action_ac0e11136dc5327f709d82e8d417bb088}{id}}
 \item 
-char $\ast$ \hyperlink{structTM__Action_a2c6ba822db618531770d3c834fb4ec8a}{name}
+char $\ast$ \mbox{\hyperlink{structTM__Action_a2c6ba822db618531770d3c834fb4ec8a}{name}}
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
+\doxysubsection{Detailed Description}
 Timeline action. 
 
-\subsection{Member Data Documentation}
-\hypertarget{structTM__Action_a6ff56cc7060fa2369a3879b4244180e7}{\index{T\-M\-\_\-\-Action@{T\-M\-\_\-\-Action}!active@{active}}
-\index{active@{active}!TM_Action@{T\-M\-\_\-\-Action}}
-\subsubsection[{active}]{\setlength{\rightskip}{0pt plus 5cm}bool T\-M\-\_\-\-Action\-::active}}\label{structTM__Action_a6ff56cc7060fa2369a3879b4244180e7}
-If false, then this action is waiting for it's delay to finish. \hypertarget{structTM__Action_a061dfb7f5496731aaf448a04491263ac}{\index{T\-M\-\_\-\-Action@{T\-M\-\_\-\-Action}!arguments@{arguments}}
-\index{arguments@{arguments}!TM_Action@{T\-M\-\_\-\-Action}}
-\subsubsection[{arguments}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf T\-M\-\_\-\-Arguments}$\ast$ T\-M\-\_\-\-Action\-::arguments}}\label{structTM__Action_a061dfb7f5496731aaf448a04491263ac}
-Arguments of the action. \hypertarget{structTM__Action_a73181b4f19f197b992ed98d11d3964a8}{\index{T\-M\-\_\-\-Action@{T\-M\-\_\-\-Action}!delay@{delay}}
-\index{delay@{delay}!TM_Action@{T\-M\-\_\-\-Action}}
-\subsubsection[{delay}]{\setlength{\rightskip}{0pt plus 5cm}int T\-M\-\_\-\-Action\-::delay}}\label{structTM__Action_a73181b4f19f197b992ed98d11d3964a8}
-Number of miliseconds to delay before action is started. \hypertarget{structTM__Action_a7935399aa8077d154e7d1ce64f5a13c5}{\index{T\-M\-\_\-\-Action@{T\-M\-\_\-\-Action}!function@{function}}
-\index{function@{function}!TM_Action@{T\-M\-\_\-\-Action}}
-\subsubsection[{function}]{\setlength{\rightskip}{0pt plus 5cm}bool($\ast$ T\-M\-\_\-\-Action\-::function)(struct {\bf Game} $\ast$, struct {\bf T\-M\-\_\-\-Action} $\ast$, enum {\bf T\-M\-\_\-\-Action\-State})}}\label{structTM__Action_a7935399aa8077d154e7d1ce64f5a13c5}
-Function callback of the action. \hypertarget{structTM__Action_ac0e11136dc5327f709d82e8d417bb088}{\index{T\-M\-\_\-\-Action@{T\-M\-\_\-\-Action}!id@{id}}
-\index{id@{id}!TM_Action@{T\-M\-\_\-\-Action}}
-\subsubsection[{id}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int T\-M\-\_\-\-Action\-::id}}\label{structTM__Action_ac0e11136dc5327f709d82e8d417bb088}
-I\-D of the action. \hypertarget{structTM__Action_a2c6ba822db618531770d3c834fb4ec8a}{\index{T\-M\-\_\-\-Action@{T\-M\-\_\-\-Action}!name@{name}}
-\index{name@{name}!TM_Action@{T\-M\-\_\-\-Action}}
-\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ T\-M\-\_\-\-Action\-::name}}\label{structTM__Action_a2c6ba822db618531770d3c834fb4ec8a}
-\char`\"{}\-User friendly\char`\"{} name of the action. \hypertarget{structTM__Action_a86d8200abe82ba1359340b6dc2e5ac5f}{\index{T\-M\-\_\-\-Action@{T\-M\-\_\-\-Action}!next@{next}}
-\index{next@{next}!TM_Action@{T\-M\-\_\-\-Action}}
-\subsubsection[{next}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf T\-M\-\_\-\-Action}$\ast$ T\-M\-\_\-\-Action\-::next}}\label{structTM__Action_a86d8200abe82ba1359340b6dc2e5ac5f}
-Pointer to next action in queue. \hypertarget{structTM__Action_adf47bc086ee38527104d0113fab58386}{\index{T\-M\-\_\-\-Action@{T\-M\-\_\-\-Action}!timer@{timer}}
-\index{timer@{timer}!TM_Action@{T\-M\-\_\-\-Action}}
-\subsubsection[{timer}]{\setlength{\rightskip}{0pt plus 5cm}A\-L\-L\-E\-G\-R\-O\-\_\-\-T\-I\-M\-E\-R$\ast$ T\-M\-\_\-\-Action\-::timer}}\label{structTM__Action_adf47bc086ee38527104d0113fab58386}
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{structTM__Action_a6ff56cc7060fa2369a3879b4244180e7}\label{structTM__Action_a6ff56cc7060fa2369a3879b4244180e7}} 
+\index{TM\_Action@{TM\_Action}!active@{active}}
+\index{active@{active}!TM\_Action@{TM\_Action}}
+\doxysubsubsection{\texorpdfstring{active}{active}}
+{\footnotesize\ttfamily bool T\+M\+\_\+\+Action\+::active}
+
+If false, then this action is waiting for it\textquotesingle{}s delay to finish. \mbox{\Hypertarget{structTM__Action_a061dfb7f5496731aaf448a04491263ac}\label{structTM__Action_a061dfb7f5496731aaf448a04491263ac}} 
+\index{TM\_Action@{TM\_Action}!arguments@{arguments}}
+\index{arguments@{arguments}!TM\_Action@{TM\_Action}}
+\doxysubsubsection{\texorpdfstring{arguments}{arguments}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structTM__Arguments}{T\+M\+\_\+\+Arguments}}$\ast$ T\+M\+\_\+\+Action\+::arguments}
+
+Arguments of the action. \mbox{\Hypertarget{structTM__Action_a73181b4f19f197b992ed98d11d3964a8}\label{structTM__Action_a73181b4f19f197b992ed98d11d3964a8}} 
+\index{TM\_Action@{TM\_Action}!delay@{delay}}
+\index{delay@{delay}!TM\_Action@{TM\_Action}}
+\doxysubsubsection{\texorpdfstring{delay}{delay}}
+{\footnotesize\ttfamily int T\+M\+\_\+\+Action\+::delay}
+
+Number of miliseconds to delay before action is started. \mbox{\Hypertarget{structTM__Action_a90f5cf6e2e162dfdd930c6971df139fd}\label{structTM__Action_a90f5cf6e2e162dfdd930c6971df139fd}} 
+\index{TM\_Action@{TM\_Action}!function@{function}}
+\index{function@{function}!TM\_Action@{TM\_Action}}
+\doxysubsubsection{\texorpdfstring{function}{function}}
+{\footnotesize\ttfamily bool($\ast$ T\+M\+\_\+\+Action\+::function) (struct \mbox{\hyperlink{structGame}{Game}} $\ast$, struct \mbox{\hyperlink{structTM__Action}{T\+M\+\_\+\+Action}} $\ast$, enum \mbox{\hyperlink{timeline_8h_a76cf4bbb9006628ae8bcd1a4f3afdf87}{T\+M\+\_\+\+Action\+State}})}
+
+Function callback of the action. \mbox{\Hypertarget{structTM__Action_ac0e11136dc5327f709d82e8d417bb088}\label{structTM__Action_ac0e11136dc5327f709d82e8d417bb088}} 
+\index{TM\_Action@{TM\_Action}!id@{id}}
+\index{id@{id}!TM\_Action@{TM\_Action}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily unsigned int T\+M\+\_\+\+Action\+::id}
+
+ID of the action. \mbox{\Hypertarget{structTM__Action_a2c6ba822db618531770d3c834fb4ec8a}\label{structTM__Action_a2c6ba822db618531770d3c834fb4ec8a}} 
+\index{TM\_Action@{TM\_Action}!name@{name}}
+\index{name@{name}!TM\_Action@{TM\_Action}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily char$\ast$ T\+M\+\_\+\+Action\+::name}
+
+\char`\"{}\+User friendly\char`\"{} name of the action. \mbox{\Hypertarget{structTM__Action_a86d8200abe82ba1359340b6dc2e5ac5f}\label{structTM__Action_a86d8200abe82ba1359340b6dc2e5ac5f}} 
+\index{TM\_Action@{TM\_Action}!next@{next}}
+\index{next@{next}!TM\_Action@{TM\_Action}}
+\doxysubsubsection{\texorpdfstring{next}{next}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structTM__Action}{T\+M\+\_\+\+Action}}$\ast$ T\+M\+\_\+\+Action\+::next}
+
+Pointer to next action in queue. \mbox{\Hypertarget{structTM__Action_adf47bc086ee38527104d0113fab58386}\label{structTM__Action_adf47bc086ee38527104d0113fab58386}} 
+\index{TM\_Action@{TM\_Action}!timer@{timer}}
+\index{timer@{timer}!TM\_Action@{TM\_Action}}
+\doxysubsubsection{\texorpdfstring{timer}{timer}}
+{\footnotesize\ttfamily A\+L\+L\+E\+G\+R\+O\+\_\+\+T\+I\+M\+ER$\ast$ T\+M\+\_\+\+Action\+::timer}
+
 Delay timer. 
 
-The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-src/\hyperlink{timeline_8h}{timeline.\-h}\end{DoxyCompactItemize}
+src/\mbox{\hyperlink{timeline_8h}{timeline.\+h}}\end{DoxyCompactItemize}
