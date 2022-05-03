@@ -27,6 +27,8 @@
 #include <getopt.h>
 #include <locale.h>
 #include <signal.h>
+#include <stdlib.h>
+#include <string.h>
 #include "gamestates/menu.h"
 #include "gamestates/loading.h"
 #include "gamestates/about.h"
@@ -70,13 +72,15 @@
 #define RESUME_STATE(state, name) case state:\
 	PrintConsole(game, "Resume %s...", #state); name ## _Resume(game); break;
 
+/**\brief Tests something about path and if it's good then it's written into \p result
+*/
 static void TestPath(char* filename, char* subpath, char** result) {
 	ALLEGRO_PATH *tail = al_create_path(filename);
 	ALLEGRO_PATH *path = al_get_standard_path(ALLEGRO_RESOURCES_PATH);
 	ALLEGRO_PATH *data = al_create_path(subpath);
 	al_join_paths(path, data);
 	al_join_paths(path, tail);
-	//printf("Testing for %s\n", al_path_cstr(path, ALLEGRO_NATIVE_PATH_SEP));
+	printf("Testing for %s\n", al_path_cstr(path, ALLEGRO_NATIVE_PATH_SEP));
 	if (al_filename_exists(al_path_cstr(path, ALLEGRO_NATIVE_PATH_SEP))) {
 		*result = strdup(al_path_cstr(path, ALLEGRO_NATIVE_PATH_SEP));
 	}
@@ -85,6 +89,13 @@ static void TestPath(char* filename, char* subpath, char** result) {
 	al_destroy_path(path);
 }
 
+/**\brief Tries to figure out where are our assets currently stored
+
+  \param filename Filename from the assets directory independent of filesystem
+
+  Tests against multiple possible paths for required file. If it won't find any, exit(1) is called
+  \return Duplicate string pointer to actual path of required file to be loaded or exit if not found
+ */
 char* GetDataFilePath(char* filename) {
 
 	char *result = 0;
@@ -100,6 +111,7 @@ char* GetDataFilePath(char* filename) {
 		return strdup(origfn);
 	}
 
+	//Why is this double pointer?
 	TestPath(filename, "../share/superderpy/data/", &result);
 	TestPath(filename, "../data/", &result);
 	TestPath(filename, "../Resources/data/", &result);
@@ -447,6 +459,13 @@ void derp(int sig) {
 }
 
 int main(int argc, char **argv){
+
+	if (argc > 1 && !strcmp(argv[1], "--help")) {
+	  puts("Options:\n-l <level> - starts game at <level>");
+	  puts("-s <state> - it surely does something i dunno what, but 1 sends it into loop");
+	  exit(EXIT_SUCCESS);
+	}
+
 	signal(SIGSEGV, derp);
 
 	srand(time(NULL));
@@ -472,10 +491,10 @@ int main(int argc, char **argv){
 	game.voice = atoi(GetConfigOptionDefault("SuperDerpy", "voice", "10"));
 	game.fx = atoi(GetConfigOptionDefault("SuperDerpy", "fx", "10"));
 	game.debug = atoi(GetConfigOptionDefault("SuperDerpy", "debug", "0"));
-	game.width = atoi(GetConfigOptionDefault("SuperDerpy", "width", "800"));
-	if (game.width<320) game.width=320;
-	game.height = atoi(GetConfigOptionDefault("SuperDerpy", "height", "450"));
-	if (game.height<200) game.height=180;
+	game.width = 800;//atoi(GetConfigOptionDefault("SuperDerpy", "width", "800"));
+	if (game.width<320)  game.width=320;
+	game.height = 600;//atoi(GetConfigOptionDefault("SuperDerpy", "height", "450"));
+	if (game.height<200)  game.height=180;
 
 	if(!al_init_image_addon()) {
 		fprintf(stderr, "failed to initialize image addon!\n");
@@ -516,11 +535,12 @@ int main(int argc, char **argv){
 		return -1;
 	}
 
-	if (game.fullscreen) al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
-	else al_set_new_display_flags(ALLEGRO_WINDOWED);
+// 	if (!game.fullscreen)
+// 	  al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
+// 	else
+	al_set_new_display_flags(ALLEGRO_WINDOWED);
 	al_set_new_display_option(ALLEGRO_VSYNC, 2-atoi(GetConfigOptionDefault("SuperDerpy", "vsync", "1")), ALLEGRO_SUGGEST);
 	al_set_new_display_option(ALLEGRO_OPENGL, atoi(GetConfigOptionDefault("SuperDerpy", "opengl", "1")), ALLEGRO_SUGGEST);
-
 	game.display = al_create_display(game.width, game.height);
 	if(!game.display) {
 		fprintf(stderr, "failed to create display!\n");
@@ -566,7 +586,7 @@ int main(int argc, char **argv){
 	al_register_event_source(game.event_queue, al_get_display_event_source(game.display));
 	al_register_event_source(game.event_queue, al_get_keyboard_event_source());
 
-	game.showconsole = game.debug;
+	game.showconsole = true;//game.debug;
 
 	al_flip_display();
 	al_clear_to_color(al_map_rgb(0,0,0));
@@ -589,7 +609,8 @@ int main(int argc, char **argv){
 	LoadGameState(&game);
 	game.loadstate = GAMESTATE_MENU;
 
-	int c;
+	int c; //Important
+	//If I'll pass --help it'll crash because of missing .flac file lol
 	while ((c = getopt (argc, argv, "l:s:")) != -1)
 		switch (c) {
 			case 'l':

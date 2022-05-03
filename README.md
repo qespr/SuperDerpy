@@ -1,5 +1,11 @@
 I need to learn C and what is better motivation than Ponies? This probably won't go anywhere but it never hurts to try.
 
+In case I'll get past few commits, here are some of my goals:
+
+- [ ] Make a little bit better documentation
+- [ ] Actually understand what is going on
+- [ ] Find out what the next levels should have been like
+- [ ] Make at least one new Full level
 
 Original description:
 
