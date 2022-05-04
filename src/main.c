@@ -116,12 +116,15 @@ char* GetDataFilePath(char* filename) {
 	}
 
 	//Why is this double pointer?
-	//Test each possible absolute location  depending on platform
+	//Test each possible location  depending on platform
 	TestPath(filename, "../share/superderpy/data/", &result);
 	TestPath(filename, "../data/", &result);
 	TestPath(filename, "../Resources/data/", &result);
 	TestPath(filename, "data/", &result);
-	puts("----------------------------");
+	//For running out of build dir
+	TestPath(filename, "../data/", &result);
+	TestPath(filename, "../../data/", &result);
+	TestPath(filename, "../../../data/", &result);
 
 	if (!result) {
 		printf("FATAL: Could not find data file: %s!\n", filename);
