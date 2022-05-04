@@ -72,7 +72,11 @@
 #define RESUME_STATE(state, name) case state:\
 	PrintConsole(game, "Resume %s...", #state); name ## _Resume(game); break;
 
-/**\brief Tests something about path and if it's good then it's written into \p result
+/**\brief Transforms and tests path existence and if exists then duplicates absolute path to \p result
+
+   \param filename Filename from the assets directory independent of filesystem
+   \param subpath Path prefix at which the file could be located
+   \param result Pointer pointer where confirmed path will be written to
 */
 static void TestPath(char* filename, char* subpath, char** result) {
 	ALLEGRO_PATH *tail = al_create_path(filename);
@@ -112,10 +116,12 @@ char* GetDataFilePath(char* filename) {
 	}
 
 	//Why is this double pointer?
+	//Test each possible absolute location  depending on platform
 	TestPath(filename, "../share/superderpy/data/", &result);
 	TestPath(filename, "../data/", &result);
 	TestPath(filename, "../Resources/data/", &result);
 	TestPath(filename, "data/", &result);
+	puts("----------------------------");
 
 	if (!result) {
 		printf("FATAL: Could not find data file: %s!\n", filename);

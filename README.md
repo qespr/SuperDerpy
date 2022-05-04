@@ -7,6 +7,13 @@ In case I'll get past few commits, here are some of my goals:
 - [ ] Find out what the next levels should have been like
 - [ ] Make at least one new Full level
 
+- Dependencies:
+  - liballegro5-dev
+  - liballegro-audio5-dev
+  - liballegro-acodec5-dev
+  - liballegro-image5-dev
+  - liballegro-ttf5-dev
+
 (Almost) Original description:
 
 ------------------------------------------------------------------------------------------------
@@ -17,7 +24,7 @@ Discord once again!
 Equestria is again under Discord's attack! Now he's using an army of muffinzombies to bring back chaos and lack of harmony into
 ponies world. But he didn't think about some mare who knows everything about muffins...
 
-*Super Derpy: Muffin Attack* is written in C and requires Allegro 5.0.6 (``liballegro5-dev`` on debian). Works on Windows, GNU/Linux and Mac OS X.
+*Super Derpy: Muffin Attack* is written in C and requires Allegro 5.0.6. Works on Windows, GNU/Linux and Mac OS X.
 
 The game uses CMake as build system, so its building process is pretty typical.
 
