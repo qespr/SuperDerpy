@@ -70,27 +70,34 @@ void Dodger_Logic(struct Game *game) {
     game->level.derpy_y += game->level.derpy_angle / 30;
   }
 
-  int derpyx = game->level.derpy_x*game->viewportHeight*1.6;
-  int derpyy = game->level.derpy_y*game->viewportHeight;
+  int derpyx = game->level.derpy_x * game->viewportHeight * 1.6;
+  int derpyy = game->level.derpy_y * game->viewportHeight;
   int derpyw = al_get_bitmap_width(game->level.derpy);
   int derpyh = al_get_bitmap_height(game->level.derpy);
-  int derpyo = game->viewportHeight*1.6*0.1953125-al_get_bitmap_width(game->level.derpy); /* offset */
+  int derpyo = game->viewportHeight * 1.6 * 0.1953125 - al_get_bitmap_width(game->level.derpy); /* offset */
   struct Obstacle *tmp = game->level.dodger.obstacles;
   while (tmp) {
     /*PrintConsole(game, "DRAWING %f %f", tmp->x, tmp->y);*/
-    int x = (tmp->x/100.0)*game->viewportWidth;
-    int y = (tmp->y/100.0)*game->viewportHeight;
+    int x = (tmp->x / 100.0) * game->viewportWidth;
+    int y = (tmp->y / 100.0) * game->viewportHeight;
     int w = 0, h = 0;
     if (tmp->bitmap) {
-      w = al_get_bitmap_width(*(tmp->bitmap))/tmp->cols;
-      h = al_get_bitmap_height(*(tmp->bitmap))/tmp->rows;
+      w = al_get_bitmap_width(*(tmp->bitmap)) / tmp->cols;
+      h = al_get_bitmap_height(*(tmp->bitmap)) / tmp->rows;
     }
     if (x > -w) {
       /*if (!tmp->hit)*/
-      if ((((x>=derpyx+0.38*derpyw+derpyo) && (x<=derpyx+0.94*derpyw+derpyo)) || ((x+w>=derpyx+0.38*derpyw+derpyo) && (x+w<=derpyx+0.94*derpyw+derpyo)) || ((x<=derpyx+0.38*derpyw+derpyo) && (x+w>=derpyx+0.94*derpyw+derpyo))) &&
-	  (((y>=derpyy+0.26*derpyh) && (y<=derpyy+0.76*derpyh)) || ((y+h>=derpyy+0.26*derpyh) && (y+h<=derpyy+0.76*derpyh)) || ((y<=derpyy+0.26*derpyh) && (y+h>=derpyy+0.76*derpyh)))) {
-	tmp->hit=true;
-      }
+    /* Todo: Figure out what the magic numbers in if mean */
+      if ((((x >= derpyx + 0.38 * derpyw + derpyo) && (x <= derpyx + 0.94 * derpyw + derpyo)) ||
+	   ((x + w >= derpyx + 0.38 * derpyw + derpyo) && (x + w <= derpyx + 0.94 * derpyw + derpyo)) ||
+	   ((x<=derpyx+0.38*derpyw+derpyo) && (x+w>=derpyx+0.94*derpyw+derpyo)))
+	  &&
+	  (((y >= derpyy + 0.26 * derpyh) && (y <= derpyy + 0.76 * derpyh)) ||
+	   ((y + h >= derpyy + 0.26 * derpyh) && (y + h <= derpyy + 0.76 * derpyh)) ||
+	   ((y <= derpyy + 0.26 * derpyh) && (y + h >= derpyy + 0.76 * derpyh))))
+	{
+	  tmp->hit=true;
+	}
 
       if (tmp->anim_speed) {
 	tmp->tmp_pos+=1;
