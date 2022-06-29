@@ -84,7 +84,7 @@ static void TestPath(char* filename, char* subpath, char** result) {
 	ALLEGRO_PATH *data = al_create_path(subpath);
 	al_join_paths(path, data);
 	al_join_paths(path, tail);
-	printf("Testing for %s\n", al_path_cstr(path, ALLEGRO_NATIVE_PATH_SEP));
+	/* printf("Testing for %s\n", al_path_cstr(path, ALLEGRO_NATIVE_PATH_SEP)); */
 	if (al_filename_exists(al_path_cstr(path, ALLEGRO_NATIVE_PATH_SEP))) {
 		*result = strdup(al_path_cstr(path, ALLEGRO_NATIVE_PATH_SEP));
 	}
