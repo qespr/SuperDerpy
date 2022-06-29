@@ -98,7 +98,7 @@ void Dodger_Logic(struct Game *game) {
 	  tmp->pos++;
 	  tmp->tmp_pos = 0;
 	}
-	if (tmp->pos>=tmp->cols*tmp->rows-tmp->blanks) tmp->pos=0;
+	if (tmp->pos >= tmp->cols * tmp->rows - tmp->blanks) tmp->pos = 0;
       }
 
       if (tmp->hit) {
@@ -106,14 +106,14 @@ void Dodger_Logic(struct Game *game) {
 	game->level.hp+=0.0002*tmp->points*(((1-game->level.speed_modifier)/2.0)+1);
 	if (game->level.hp>1) game->level.hp=1;
 	//PrintConsole(game, "POINTS: %d, %f", tmp->points, tps(game, 60*0.0002*tmp->points*game->level.speed_modifier));
-	if ((game->level.hp<=0) && (!game->level.failed)) {
+	if ((game->level.hp <= 0) && (!game->level.failed)) {
 	  game->level.failed = true;
 	  game->level.handle_input = false;
 	  game->level.speed_modifier = 1;
 	  TM_AddBackgroundAction(&LevelFailed, NULL, 0, "levelfailed");
 	}
       }
-      tmp->x -= game->level.speed*game->level.speed_modifier*tmp->speed*100*al_get_bitmap_width(game->level.stage)/(float)game->viewportWidth;
+      tmp->x -= game->level.speed * game->level.speed_modifier * tmp->speed * 100 * al_get_bitmap_width(game->level.stage) / (float)game->viewportWidth;
       if (tmp->callback) tmp->callback(game, tmp);
       tmp = tmp->next;
     } else {
@@ -123,7 +123,7 @@ void Dodger_Logic(struct Game *game) {
 	tmp->prev->next = tmp->next;
       else
 	game->level.dodger.obstacles = tmp->next;
-      //WTF??
+      //Next item in double linked list
       struct Obstacle *t = tmp;
       tmp = tmp->next;
       free(t);
@@ -156,13 +156,13 @@ void Dodger_Draw(struct Game *game) {
 			}
 
 			if (tmp->bitmap) {
-				ALLEGRO_BITMAP* subbitmap = al_create_sub_bitmap(*(tmp->bitmap),w*(tmp->pos%tmp->cols), h*(tmp->pos/tmp->cols),w,h);
+				ALLEGRO_BITMAP* subbitmap = al_create_sub_bitmap(*(tmp->bitmap), w*(tmp->pos%tmp->cols), h*(tmp->pos/tmp->cols), w, h);
 				al_draw_rotated_bitmap(subbitmap,w/2.0, h/2.0, x+w/2.0,y+h/2.0, tmp->angle, 0);
 				al_destroy_bitmap(subbitmap);
 			}
 
 			/*al_draw_bitmap(*(tmp->bitmap), x, y, 0);*/
-			if (game->level.debug_show_sprite_frames) al_draw_rectangle(x, y, x+w, y+h, al_map_rgba(255,0,0,255), 3);
+			if (game->level.debug_show_sprite_frames) al_draw_rectangle(x, y, x + w, y + h, al_map_rgba(255, 0, 0, 255), 3);
 
 			tmp = tmp->next;
 		} else {
