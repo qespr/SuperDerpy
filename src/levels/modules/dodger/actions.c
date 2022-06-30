@@ -27,8 +27,8 @@
 // TODO: make it configurable and move to generic actions
 bool Accelerate(struct Game *game, struct TM_Action *action, enum TM_ActionState state) {
 	if (state != TM_ACTIONSTATE_RUNNING) return false;
-	game->level.speed+=0.000015;
-	if (game->level.speed>=0.0025) return true;
+	game->level.speed += 0.000015;
+	if (game->level.speed >= 0.0025) return true;
 	return false;
 }
 
@@ -36,16 +36,16 @@ bool Accelerate(struct Game *game, struct TM_Action *action, enum TM_ActionState
 bool Walk(struct Game *game, struct TM_Action *action, enum TM_ActionState state) {
 	if (state == TM_ACTIONSTATE_START) SelectDerpySpritesheet(game, "walk");
 	else if (state != TM_ACTIONSTATE_RUNNING) return false;
-	game->level.derpy_x+=(0.00125*game->viewportWidth)/(float)game->viewportWidth;
-	if (game->level.derpy_x>=(0.05*game->viewportWidth)/(float)game->viewportWidth) return true;
+	game->level.derpy_x += (0.00125 * game->viewportWidth) / (float)game->viewportWidth;
+	if (game->level.derpy_x >= (0.05 * game->viewportWidth) / (float)game->viewportWidth) return true;
 	return false;
 }
 
 // TODO: make it configurable and move to generic actions
 bool Move(struct Game *game, struct TM_Action *action, enum TM_ActionState state) {
 	if (state != TM_ACTIONSTATE_RUNNING) return false;
-	game->level.speed=0.000345;
-	if (game->level.st_pos>=0.275) return true;
+	game->level.speed = 0.000345;
+	if (game->level.st_pos >= 0.275) return true;
 	return false;
 }
 
@@ -59,25 +59,25 @@ bool Fly(struct Game *game, struct TM_Action *action, enum TM_ActionState state)
 		game->level.handle_input = true;
 	}
 	else if (state != TM_ACTIONSTATE_RUNNING) return false;
-	game->level.derpy_y-=0.004;
-	if (game->level.derpy_y<=0.2) return true;
+	game->level.derpy_y -= 0.004;
+	if (game->level.derpy_y <= 0.2) return true;
 	return false;
 }
 
 bool Run(struct Game *game, struct TM_Action *action, enum TM_ActionState state) {
 	if (state == TM_ACTIONSTATE_START) {
-		game->level.handle_input=false;
-		game->level.speed_modifier=1;
+		game->level.handle_input = false;
+		game->level.speed_modifier = 1;
 	}
 	else if (state == TM_ACTIONSTATE_DESTROY) {
 		game->level.derpy_angle = 0;
 		SelectDerpySpritesheet(game, "run");
 	}
 	else if (state != TM_ACTIONSTATE_RUNNING) return false;
-	game->level.derpy_y+=0.0042;
+	game->level.derpy_y += 0.0042;
 	if (game->level.derpy_angle > 0) { game->level.derpy_angle -= 0.02; if (game->level.derpy_angle < 0) game->level.derpy_angle = 0; }
 	if (game->level.derpy_angle < 0) { game->level.derpy_angle += 0.02; if (game->level.derpy_angle > 0) game->level.derpy_angle = 0; }
-	if (game->level.derpy_y>=0.65) return true;
+	if (game->level.derpy_y >= 0.65) return true;
 	return false;
 }
 
@@ -91,7 +91,7 @@ bool GenerateObstacles(struct Game *game, struct TM_Action *action, enum TM_Acti
 		*count = 0;
 	}
 	else if (state == TM_ACTIONSTATE_RUNNING) {
-		if (rand()%(10000/(int)(85*game->level.speed_modifier))<=3) {
+		if (rand() % (10000 / (int)(85 * game->level.speed_modifier)) <=3) {
 			PrintConsole(game, "OBSTACLE %d", *count);
 			(*count)++;
 			struct Obstacle *obst = malloc(sizeof(struct Obstacle));
@@ -113,9 +113,9 @@ bool GenerateObstacles(struct Game *game, struct TM_Action *action, enum TM_Acti
 				obst->data = NULL;
 				obst->points = -5;
 				obst->bitmap = &(game->level.dodger.obst_bmps.badmuffin);
-				obst->speed += (rand()%100) / 1000.0 - 0.05;
-			} else if (rand()%100<=12) {
-				obst->callback= &Obst_RotateSin;
+				obst->speed += (rand() % 100) / 1000.0 - 0.05;
+			} else if (rand() % 100 <= 12) {
+				obst->callback = &Obst_RotateSin;
 				obst->data = malloc(sizeof(float));
 				*((float*)obst->data) = 0;
 				obst->points = 8;

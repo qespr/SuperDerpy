@@ -31,6 +31,7 @@
 #include "level.h"
 #include "../timeline.h"
 
+/* \brief Macro that calls function [name] for currently loaded Level*/
 #define LEVELS(name, ...) switch (game->level.current_level) { \
 	case 1: \
 	Level1_ ## name (__VA_ARGS__); break;\
