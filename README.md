@@ -4,8 +4,10 @@ In case I'll get past few commits, here are some of my goals:
 
 - [ ] Make a little bit better documentation
 - [ ] Actually understand what is going on
+- [ ] Improve obstacle position generation in 1st level so there is less "impossible to dodge" events
 - [ ] Find out what the next levels should have been like
 - [ ] Make at least one new Full level
+- [ ] Controller support so it works on steam deck
 
 - Dependencies:
   - liballegro5-dev
