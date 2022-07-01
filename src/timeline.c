@@ -341,7 +341,7 @@ void TM_Destroy(void) {
 			tmp = tmp2;
 		}
 	}
-	
+
 	game = NULL;
 }
 

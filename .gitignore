@@ -9,3 +9,6 @@ sync*
 /compile_commands.json
 /superderpy
 /.cache/
+doc/*
+doc/*.*
+*.html

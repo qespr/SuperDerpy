@@ -25,7 +25,7 @@
 
 void Map_Draw(struct Game *game) {
 	al_draw_bitmap(game->map.map, 0, 0, 0);
-	float x=0,y=0;
+	float x = 0, y = 0;
 	switch (game->map.selected) {
 		case 1:
 			x=0.2;
@@ -52,7 +52,10 @@ void Map_Draw(struct Game *game) {
 			y=0.675;
 			break;
 	}
-	al_draw_scaled_bitmap(game->map.arrow, 0, 0, al_get_bitmap_width(game->map.arrow), al_get_bitmap_height(game->map.arrow), (game->viewportWidth-game->viewportHeight*1.6)/2+game->viewportHeight*1.6*x, game->viewportHeight*y + ((sin(game->map.arrowpos)+0.5)/20.0)*game->viewportHeight, game->viewportHeight*1.6*0.1, game->viewportHeight*0.16, 0);
+	al_draw_scaled_bitmap(game->map.arrow, 0, 0, al_get_bitmap_width(game->map.arrow), al_get_bitmap_height(game->map.arrow),
+			      (game->viewportWidth-game->viewportHeight * 1.6) / 2 + game->viewportHeight * 1.6 * x, game->viewportHeight * y
+			      + ((sin(game->map.arrowpos) + 0.5) / 20.0) * game->viewportHeight, game->viewportHeight * 1.6 * 0.1,
+			      game->viewportHeight * 0.16, 0);
 }
 
 void Map_Logic(struct Game *game) {
@@ -65,15 +68,27 @@ void Map_Load(struct Game *game) {
 }
 
 int Map_Keydown(struct Game *game, ALLEGRO_EVENT *ev) {
-	if ((((game->map.selected<4) || (game->map.selected==6)) && (ev->keyboard.keycode==ALLEGRO_KEY_LEFT)) || ((game->map.selected>4) && (game->map.selected!=6) && (ev->keyboard.keycode==ALLEGRO_KEY_RIGHT)) || ((game->map.selected==4) && (ev->keyboard.keycode==ALLEGRO_KEY_UP)) || ((game->map.selected==6) && (ev->keyboard.keycode==ALLEGRO_KEY_DOWN))) {
+        //Man, you could have just used <- and -> and everyone would get it, this is brutal
+	if ((((game->map.selected < 4) || (game->map.selected == 6)) && (ev->keyboard.keycode == ALLEGRO_KEY_LEFT)) ||
+	    ((game->map.selected > 4) && (game->map.selected != 6) && (ev->keyboard.keycode == ALLEGRO_KEY_RIGHT)) ||
+	    ((game->map.selected == 4) && (ev->keyboard.keycode == ALLEGRO_KEY_UP)) ||
+	    ((game->map.selected == 6) && (ev->keyboard.keycode == ALLEGRO_KEY_DOWN)))
+	  {
 		game->map.selected--;
 		al_play_sample_instance(game->map.click);
-	} else if (((game->map.selected<3) && (ev->keyboard.keycode==ALLEGRO_KEY_RIGHT)) || ((game->map.selected==4) && (ev->keyboard.keycode==ALLEGRO_KEY_LEFT)) || ((game->map.selected==3) && (ev->keyboard.keycode==ALLEGRO_KEY_DOWN)) || ((game->map.selected==5) && (ev->keyboard.keycode==ALLEGRO_KEY_UP))) {
+	  }
+	else if (((game->map.selected < 3) && (ev->keyboard.keycode == ALLEGRO_KEY_RIGHT)) ||
+		 ((game->map.selected == 4) && (ev->keyboard.keycode == ALLEGRO_KEY_LEFT)) ||
+		 ((game->map.selected == 3) && (ev->keyboard.keycode == ALLEGRO_KEY_DOWN)) ||
+		 ((game->map.selected == 5) && (ev->keyboard.keycode == ALLEGRO_KEY_UP)))
+	  {
 		game->map.selected++;
 		al_play_sample_instance(game->map.click);
-	} else if ((ev->keyboard.keycode==ALLEGRO_KEY_LEFT) || (ev->keyboard.keycode==ALLEGRO_KEY_RIGHT) || (ev->keyboard.keycode==ALLEGRO_KEY_UP) || (ev->keyboard.keycode==ALLEGRO_KEY_DOWN)) {
-		al_play_sample_instance(game->map.click);
-	} else if (ev->keyboard.keycode==ALLEGRO_KEY_ENTER) {
+	  }
+	else if ((ev->keyboard.keycode == ALLEGRO_KEY_LEFT) || (ev->keyboard.keycode == ALLEGRO_KEY_RIGHT) ||
+		 (ev->keyboard.keycode == ALLEGRO_KEY_UP) || (ev->keyboard.keycode == ALLEGRO_KEY_DOWN)) {
+	        al_play_sample_instance(game->map.click);
+	} else if (ev->keyboard.keycode == ALLEGRO_KEY_ENTER) {
 		al_play_sample_instance(game->map.click);
 		game->level.input.current_level = game->map.selected;
 		PrintConsole(game, "Selecting level %d...", game->map.selected);
@@ -87,8 +102,8 @@ int Map_Keydown(struct Game *game, ALLEGRO_EVENT *ev) {
 		LoadGameState(game);
 		return 0;
 	} else { return 0; }
-	if (game->map.selected<1) game->map.selected=1;
-	if (game->map.selected>game->map.available) game->map.selected=game->map.available;
+	if (game->map.selected < 1) game->map.selected = 1;
+	if (game->map.selected > game->map.available) game->map.selected = game->map.available;
 	return 0;
 }
 
@@ -96,16 +111,16 @@ void Map_Preload(struct Game *game, void (*progress)(struct Game*, float)) {
 	PROGRESS_INIT(7);
 
 	game->map.available = atoi(GetConfigOptionDefault("MuffinAttack", "level", "1"));
-	if ((game->map.available<1) || (game->map.available>6)) game->map.available=1;
+	if ((game->map.available < 1) || (game->map.available > 6)) game->map.available = 1;
 	game->map.selected = game->map.available;
 	PrintConsole(game, "Last level available: %d", game->map.selected);
 	game->map.arrowpos = 0;
 
-	game->map.map_bg = LoadScaledBitmap("map/background.png", game->viewportHeight*1.6, game->viewportHeight);
+	game->map.map_bg = LoadScaledBitmap("map/background.png", game->viewportHeight * 1.6, game->viewportHeight);
 	PROGRESS;
 	char filename[30] = { };
 	sprintf(filename, "map/highlight%d.png", game->map.available);
-	game->map.highlight = LoadScaledBitmap(filename, game->viewportHeight*1.6, game->viewportHeight);
+	game->map.highlight = LoadScaledBitmap(filename, game->viewportHeight * 1.6, game->viewportHeight);
 	PROGRESS;
 
 	game->map.arrow = al_load_bitmap( GetDataFilePath("map/arrow.png") );
@@ -136,8 +151,8 @@ void Map_Preload(struct Game *game, void (*progress)(struct Game*, float)) {
 	game->map.map = LoadScaledBitmap("table.png", game->viewportWidth, game->viewportHeight);
 	PROGRESS;
 	al_set_target_bitmap(game->map.map);
-	al_draw_bitmap(game->map.map_bg, (game->viewportWidth-game->viewportHeight*1.6)/2, 0 ,0);
-	al_draw_bitmap(game->map.highlight, (game->viewportWidth-game->viewportHeight*1.6)/2, 0 ,0);
+	al_draw_bitmap(game->map.map_bg, (game->viewportWidth - game->viewportHeight * 1.6)/2, 0 ,0);
+	al_draw_bitmap(game->map.highlight, (game->viewportWidth-game->viewportHeight * 1.6)/2, 0 ,0);
 	al_set_target_bitmap(al_get_backbuffer(game->display));
 	PROGRESS;
 }

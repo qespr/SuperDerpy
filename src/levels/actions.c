@@ -189,7 +189,7 @@ bool Letter(struct Game *game, struct TM_Action *action, enum TM_ActionState sta
 		TM_DestroyArgs(action->arguments);
 	} else if (state == TM_ACTIONSTATE_DRAW) {
 		float* f = (float*)action->arguments->value;
-		al_draw_tinted_bitmap(game->level.letter, al_map_rgba(*f,*f,*f,*f), (game->viewportWidth-al_get_bitmap_width(game->level.letter))/2.0, al_get_bitmap_height(game->level.letter)*-0.05, 0);
+		al_draw_tinted_bitmap(game->level.letter, al_map_rgba(*f ,*f ,*f ,*f), (game->viewportWidth - al_get_bitmap_width(game->level.letter)) / 2.0, al_get_bitmap_height(game->level.letter) * -0.05, 0);
 		return false;
 	} else if (state == TM_ACTIONSTATE_PAUSE) {
 		ALLEGRO_AUDIO_STREAM** stream = (ALLEGRO_AUDIO_STREAM**)action->arguments->next->value;
@@ -201,9 +201,9 @@ bool Letter(struct Game *game, struct TM_Action *action, enum TM_ActionState sta
 	if (state != TM_ACTIONSTATE_RUNNING) return false;
 
 	float* f = (float*)action->arguments->value;
-	*f+=5;
-	if (*f>255) *f=255;
-	al_draw_tinted_bitmap(game->level.letter, al_map_rgba(*f,*f,*f,*f), (game->viewportWidth-al_get_bitmap_width(game->level.letter))/2.0, al_get_bitmap_height(game->level.letter)*-0.05, 0);
+	*f += 5;
+	if (*f > 255) *f = 255;
+	al_draw_tinted_bitmap(game->level.letter, al_map_rgba(*f, *f, *f, *f), (game->viewportWidth - al_get_bitmap_width(game->level.letter)) / 2.0, al_get_bitmap_height(game->level.letter) * -0.05, 0);
 	struct ALLEGRO_KEYBOARD_STATE keyboard;
 	al_get_keyboard_state(&keyboard);
 	// FIXME: do it the proper way
