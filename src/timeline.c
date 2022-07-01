@@ -26,6 +26,7 @@ unsigned int lastid;
 struct Game* game = NULL;
 struct TM_Action *queue, *background;
 
+/*! \brief Initializes TimeLine */
 void TM_Init(struct Game* g) {
 	PrintConsole(g, "Timeline Manager: init");
 	game = g;
@@ -372,6 +373,5 @@ void TM_DestroyArgs(struct TM_Arguments* args) {
 }
 
 bool TM_Initialized(void) {
-	if (game) return true;
-	return false;
+  return game ? true : false;
 }
