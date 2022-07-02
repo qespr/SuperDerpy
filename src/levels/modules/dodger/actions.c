@@ -33,11 +33,16 @@ bool Accelerate(struct Game *game, struct TM_Action *action, enum TM_ActionState
 }
 
 // TODO: make it configurable and move to generic actions
+/**\brief Walks derpy to the end of screen??*/
 bool Walk(struct Game *game, struct TM_Action *action, enum TM_ActionState state) {
-	if (state == TM_ACTIONSTATE_START) SelectDerpySpritesheet(game, "walk");
-	else if (state != TM_ACTIONSTATE_RUNNING) return false;
+	if (state == TM_ACTIONSTATE_START)
+	  SelectDerpySpritesheet(game, "walk");
+	else if (state != TM_ACTIONSTATE_RUNNING)
+	  return false;
+
 	game->level.derpy_x += (0.00125 * game->viewportWidth) / (float)game->viewportWidth;
-	if (game->level.derpy_x >= (0.05 * game->viewportWidth) / (float)game->viewportWidth) return true;
+	if (game->level.derpy_x >= (0.05 * game->viewportWidth) / (float)game->viewportWidth)
+	  return true;
 	return false;
 }
 

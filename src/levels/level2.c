@@ -20,59 +20,74 @@
  */
 #include <stdio.h>
 #include "../gamestates/level.h"
-#include "modules/moonwalk.h"
 #include "../timeline.h"
 #include "actions.h"
 #include "level2.h"
+#include "modules/derpControlls.h"
 
 void Level2_Load(struct Game *game) {
-	Moonwalk_Load(game);
-	TM_AddAction(&DoMoonwalk, NULL, "moonwalk");
-	TM_AddAction(&PassLevel, NULL, "passlevel");
-	FadeGameState(game, true);
+  DerpControlls_Load(game);
+  TM_AddBackgroundAction(&FadeIn, NULL, 0, "fadein");
+  TM_AddDelay(1000);
+  TM_AddBackgroundAction(&FadeIn, NULL, 0, "fadein");
+  TM_AddDelay(1000);
+  TM_AddQueuedBackgroundAction(&Welcome, NULL, 0, "welcome");
+  TM_AddDelay(1000);
+  TM_AddAction(&Walk, NULL, "walk");
+  TM_AddAction(&Move, NULL, "move");
+  TM_AddAction(&Stop, NULL, "stop");
+  TM_AddDelay(1000);
+  TM_AddAction(&Letter, NULL, "letter");
+  TM_AddDelay(200);
+  TM_AddQueuedBackgroundAction(&Accelerate, NULL, 0, "accelerate");
+  TM_AddAction(&Fly, NULL, "fly");
+  TM_AddDelay(500);
+  /* first part gameplay goes here */
+
+  /* actions for generating obstacles should go here
+   * probably as regular actions. When one ends, harder one
+   * begins. After last one part with muffins starts. */
+  TM_AddAction(&GenerateObstacles, NULL, "obstacles");
+  TM_AddDelay(3*1000);
+  /* wings disappear, deccelerate */
+  TM_AddAction(&Run, NULL, "run");
+  TM_AddDelay(3*1000);
+  /* FadeGameState(game, true); */
 }
 
 void Level2_Unload(struct Game *game) {
-	Moonwalk_Unload(game);
 }
 
 void Level2_UnloadBitmaps(struct Game *game) {
-	Moonwalk_UnloadBitmaps(game);
 }
 
 void Level2_Preload(struct Game *game) {
-	Moonwalk_Preload(game);
 }
 
 int Level2_PreloadSteps(void) {
-	return 0+Moonwalk_PreloadSteps();
+	return 0;
 }
 
 void Level2_PreloadBitmaps(struct Game *game, void (*progress)(struct Game*, float)) {
 	//PROGRESS_INIT(Level2_PreloadSteps());
-	Moonwalk_PreloadBitmaps(game, progress);
 }
 
 void Level2_Draw(struct Game *game) {
-	Moonwalk_Draw(game);
+
 }
 
 void Level2_Logic(struct Game *game) {
-	Moonwalk_Logic(game);
 }
 
 void Level2_Keydown(struct Game *game, ALLEGRO_EVENT *ev) {
-	Moonwalk_Keydown(game, ev);
+
 }
 
 void Level2_ProcessEvent(struct Game *game, ALLEGRO_EVENT *ev) {
-	Moonwalk_ProcessEvent(game, ev);
 }
 
 void Level2_Resume(struct Game *game) {
-	Moonwalk_Resume(game);
 }
 
 void Level2_Pause(struct Game *game) {
-	Moonwalk_Pause(game);
 }
