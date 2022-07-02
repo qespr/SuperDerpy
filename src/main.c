@@ -142,11 +142,11 @@ void PrintConsole(struct Game *game, char* format, ...) {
 	if (game->debug) { printf("%s\n", text); fflush(stdout); }
 	ALLEGRO_BITMAP *con = al_create_bitmap(al_get_bitmap_width(game->console), al_get_bitmap_height(game->console));
 	al_set_target_bitmap(con);
-	al_clear_to_color(al_map_rgba(0,0,0,80));
-	al_draw_bitmap_region(game->console, 0, al_get_bitmap_height(game->console)*0.2, al_get_bitmap_width(game->console), al_get_bitmap_height(game->console)*0.8, 0, 0, 0);
-	al_draw_text(game->font_console, al_map_rgb(255,255,255), game->viewportWidth*0.005, al_get_bitmap_height(game->console)*0.81, ALLEGRO_ALIGN_LEFT, text);
+	al_clear_to_color(al_map_rgba(0, 0, 0, 80));
+	al_draw_bitmap_region(game->console, 0, al_get_bitmap_height(game->console) * 0.2, al_get_bitmap_width(game->console), al_get_bitmap_height(game->console) * 0.8, 0, 0, 0);
+	al_draw_text(game->font_console, al_map_rgb(255,255,255), game->viewportWidth * 0.005, al_get_bitmap_height(game->console) * 0.81, ALLEGRO_ALIGN_LEFT, text);
 	al_set_target_bitmap(game->console);
-	al_clear_to_color(al_map_rgba(0,0,0,0));
+	al_clear_to_color(al_map_rgba(0, 0, 0, 0));
 	al_draw_bitmap(con, 0, 0, 0);
 	al_set_target_bitmap(al_get_backbuffer(game->display));
 	al_destroy_bitmap(con);
@@ -163,13 +163,13 @@ void DrawConsole(struct Game *game) {
 		}
 		char sfps[6] = { };
 		sprintf(sfps, "%.0f", game->fps_count.fps);
-		al_draw_text_with_shadow(game->font, al_map_rgb(255,255,255), game->viewportWidth*0.99, 0, ALLEGRO_ALIGN_RIGHT, sfps);
+		al_draw_text_with_shadow(game->font, al_map_rgb(255, 255, 255), game->viewportWidth * 0.99, 0, ALLEGRO_ALIGN_RIGHT, sfps);
 	}
 	game->fps_count.frames_done++;
 }
 
 void PreloadGameState(struct Game *game, void (*progress)(struct Game*, float)) {
-	if (game->loadstate<1) {
+	if (game->loadstate < 1) {
 		PrintConsole(game, "ERROR: Attempted to preload invalid gamestate %d! Loading GAMESTATE_MENU instead...", game->loadstate);
 		game->loadstate = GAMESTATE_MENU;
 	}
@@ -244,7 +244,7 @@ void DrawGameState(struct Game *game) {
 		DRAW_STATE(GAMESTATE_DISCLAIMER, Disclaimer)
 		default:
 			game->showconsole = true;
-			al_clear_to_color(al_map_rgb(0,0,0));
+			al_clear_to_color(al_map_rgb(0, 0, 0));
 			PrintConsole(game, "ERROR: Unknown gamestate %d reached! (5 sec sleep)", game->gamestate);
 			DrawConsole(game);
 			al_flip_display();
@@ -290,7 +290,7 @@ void ResumeGameState(struct Game *game) {
 void FadeGameState(struct Game *game, bool in) {
 	ALLEGRO_BITMAP* bitmap = al_create_bitmap(game->viewportWidth, game->viewportHeight);
 	al_set_target_bitmap(bitmap);
-	al_clear_to_color(al_map_rgb(0,0,0));
+	al_clear_to_color(al_map_rgb(0, 0, 0));
 	al_set_target_bitmap(al_get_backbuffer(game->display));
 	float fadeloop;
 	if (in) {
@@ -298,26 +298,26 @@ void FadeGameState(struct Game *game, bool in) {
 	} else {
 		fadeloop = 0;
 	}
-	while ((in && fadeloop>=0) || (!in && fadeloop<255)) {
+	while ((in && fadeloop >= 0) || (!in && fadeloop < 255)) {
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(game->event_queue, &ev);
 		if ((ev.type == ALLEGRO_EVENT_TIMER) && (ev.timer.source == game->timer)) {
 			LogicGameState(game);
 			if (in) {
-				fadeloop-=10;
+				fadeloop -= 10;
 			} else {
-				fadeloop+=10;
+				fadeloop += 10;
 			}
 		}
 		if (al_is_event_queue_empty(game->event_queue)) {
 			DrawGameState(game);
-			al_draw_tinted_bitmap(bitmap,al_map_rgba_f(1,1,1,fadeloop/255.0),0,0,0);
+			al_draw_tinted_bitmap(bitmap, al_map_rgba_f(1, 1, 1, fadeloop / 255.0), 0, 0, 0);
 			DrawConsole(game);
 			al_flip_display();
 		}
 	}
 	al_destroy_bitmap(bitmap);
-	al_clear_to_color(al_map_rgb(0,0,0));
+	al_clear_to_color(al_map_rgb(0, 0, 0));
 	if (in) {
 		DrawGameState(game);
 	}
@@ -327,14 +327,14 @@ void FadeGameState(struct Game *game, bool in) {
 
 static ALLEGRO_COLOR interpolate(ALLEGRO_COLOR c1, ALLEGRO_COLOR c2, float frac) {
 	return al_map_rgba_f(c1.r + frac * (c2.r - c1.r),
-											 c1.g + frac * (c2.g - c1.g),
-											 c1.b + frac * (c2.b - c1.b),
-											 c1.a + frac * (c2.a - c1.a));
+			     c1.g + frac * (c2.g - c1.g),
+			     c1.b + frac * (c2.b - c1.b),
+			     c1.a + frac * (c2.a - c1.a));
 }
 
 /*! \brief Scales bitmap using software linear filtering method to current target. */
 void ScaleBitmap(ALLEGRO_BITMAP* source, int width, int height) {
-	if ((al_get_bitmap_width(source)==width) && (al_get_bitmap_height(source)==height)) {
+	if ((al_get_bitmap_width(source) == width) && (al_get_bitmap_height(source) == height)) {
 		al_draw_bitmap(source, 0, 0, 0);
 		return;
 	}
@@ -438,19 +438,19 @@ void SetupViewport(struct Game *game) {
 }
 
 int Shared_Load(struct Game *game) {
-	game->font = al_load_ttf_font(GetDataFilePath("fonts/ShadowsIntoLight.ttf"),game->viewportHeight*0.09,0 );
+	game->font = al_load_ttf_font(GetDataFilePath("fonts/ShadowsIntoLight.ttf"),game->viewportHeight * 0.09,0 );
 	if(!game->font) {
 		fprintf(stderr, "failed to load game font!\n");
 		return -1;
 	}
-	game->font_console = al_load_ttf_font(GetDataFilePath("fonts/DejaVuSansMono.ttf"),game->viewportHeight*0.018,0 );
+	game->font_console = al_load_ttf_font(GetDataFilePath("fonts/DejaVuSansMono.ttf"),game->viewportHeight * 0.018,0 );
 	if(!game->font_console) {
 		fprintf(stderr, "failed to load console font!\n");
 		return -1;
 	}
-	game->console = al_create_bitmap(game->viewportWidth, game->viewportHeight*0.12);
+	game->console = al_create_bitmap(game->viewportWidth, game->viewportHeight * 0.12);
 	al_set_target_bitmap(game->console);
-	al_clear_to_color(al_map_rgba(0,0,0,80));
+	al_clear_to_color(al_map_rgba(0, 0, 0, 80));
 	al_set_target_bitmap(al_get_backbuffer(game->display));
 	return 0;
 }
@@ -501,9 +501,9 @@ int main(int argc, char **argv){
 	game.fx = atoi(GetConfigOptionDefault("SuperDerpy", "fx", "10"));
 	game.debug = atoi(GetConfigOptionDefault("SuperDerpy", "debug", "0"));
 	game.width = 800;//atoi(GetConfigOptionDefault("SuperDerpy", "width", "800"));
-	if (game.width<320)  game.width=320;
+	if (game.width < 320)  game.width = 320;
 	game.height = 600;//atoi(GetConfigOptionDefault("SuperDerpy", "height", "450"));
-	if (game.height<200)  game.height=180;
+	if (game.height < 200)  game.height = 180;
 
 	if(!al_init_image_addon()) {
 		fprintf(stderr, "failed to initialize image addon!\n");
@@ -548,7 +548,7 @@ int main(int argc, char **argv){
 // 	  al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
 // 	else
 	al_set_new_display_flags(ALLEGRO_WINDOWED);
-	al_set_new_display_option(ALLEGRO_VSYNC, 2-atoi(GetConfigOptionDefault("SuperDerpy", "vsync", "1")), ALLEGRO_SUGGEST);
+	al_set_new_display_option(ALLEGRO_VSYNC, 2 - atoi(GetConfigOptionDefault("SuperDerpy", "vsync", "1")), ALLEGRO_SUGGEST);
 	al_set_new_display_option(ALLEGRO_OPENGL, atoi(GetConfigOptionDefault("SuperDerpy", "opengl", "1")), ALLEGRO_SUGGEST);
 	game.display = al_create_display(game.width, game.height);
 	if(!game.display) {
@@ -588,9 +588,9 @@ int main(int argc, char **argv){
 	al_attach_mixer_to_mixer(game.audio.fx, game.audio.mixer);
 	al_attach_mixer_to_mixer(game.audio.music, game.audio.mixer);
 	al_attach_mixer_to_mixer(game.audio.voice, game.audio.mixer);
-	al_set_mixer_gain(game.audio.fx, game.fx/10.0);
-	al_set_mixer_gain(game.audio.music, game.music/10.0);
-	al_set_mixer_gain(game.audio.voice, game.voice/10.0);
+	al_set_mixer_gain(game.audio.fx, game.fx / 10.0);
+	al_set_mixer_gain(game.audio.music, game.music / 10.0);
+	al_set_mixer_gain(game.audio.voice, game.voice / 10.0);
 
 	al_register_event_source(game.event_queue, al_get_display_event_source(game.display));
 	al_register_event_source(game.event_queue, al_get_keyboard_event_source());
@@ -598,7 +598,7 @@ int main(int argc, char **argv){
 	game.showconsole = true;//game.debug;
 
 	al_flip_display();
-	al_clear_to_color(al_map_rgb(0,0,0));
+	al_clear_to_color(al_map_rgb(0, 0, 0));
 	game.timer = al_create_timer(ALLEGRO_BPS_TO_SECS(60)); // logic timer
 	if(!game.timer) {
 		fprintf(stderr, "failed to create timer!\n");
@@ -623,11 +623,11 @@ int main(int argc, char **argv){
 	while ((c = getopt (argc, argv, "l:s:")) != -1)
 		switch (c) {
 			case 'l':
-				game.level.input.current_level = optarg[0]-'0';
+				game.level.input.current_level = optarg[0] - '0';
 				game.loadstate = GAMESTATE_LEVEL;
 				break;
 			case 's':
-				game.loadstate = optarg[0]-'0';
+				game.loadstate = optarg[0] - '0';
 				break;
 		}
 
@@ -659,7 +659,7 @@ int main(int argc, char **argv){
 				}
 				else if ((game.debug) && (ev.type == ALLEGRO_EVENT_KEY_DOWN) && (ev.keyboard.keycode == ALLEGRO_KEY_F1)) {
 					int i;
-					for (i=0; i<512; i++) {
+					for (i=0; i < 512; i++) {
 						LogicGameState(&game);
 					}
 					game.showconsole = true;
@@ -667,17 +667,17 @@ int main(int argc, char **argv){
 				}	else if ((game.debug) && (ev.type == ALLEGRO_EVENT_KEY_DOWN) && (ev.keyboard.keycode == ALLEGRO_KEY_F10)) {
 					double speed = ALLEGRO_BPS_TO_SECS(al_get_timer_speed(game.timer)); // inverting
 					speed -= 10;
-					if (speed<10) speed = 10;
+					if (speed < 10) speed = 10;
 					al_set_timer_speed(game.timer, ALLEGRO_BPS_TO_SECS(speed));
 					game.showconsole = true;
 					PrintConsole(&game, "DEBUG: Gameplay speed: %.2fx", speed/60.0);
 				}	else if ((game.debug) && (ev.type == ALLEGRO_EVENT_KEY_DOWN) && (ev.keyboard.keycode == ALLEGRO_KEY_F11)) {
 					double speed = ALLEGRO_BPS_TO_SECS(al_get_timer_speed(game.timer)); // inverting
 					speed += 10;
-					if (speed>600) speed = 600;
+					if (speed > 600) speed = 600;
 					al_set_timer_speed(game.timer, ALLEGRO_BPS_TO_SECS(speed));
 					game.showconsole = true;
-					PrintConsole(&game, "DEBUG: Gameplay speed: %.2fx", speed/60.0);
+					PrintConsole(&game, "DEBUG: Gameplay speed: %.2fx", speed / 60.0);
 				} else if ((game.debug) && (ev.type == ALLEGRO_EVENT_KEY_DOWN) && (ev.keyboard.keycode == ALLEGRO_KEY_F12)) {
 					ALLEGRO_PATH *path = al_get_standard_path(ALLEGRO_USER_DOCUMENTS_PATH);
 					char filename[255] = { };
@@ -716,7 +716,7 @@ int main(int argc, char **argv){
 		game.gamestate = GAMESTATE_LOADING;
 		UnloadGameState(&game);
 	}
-	al_clear_to_color(al_map_rgb(0,0,0));
+	al_clear_to_color(al_map_rgb(0, 0, 0));
 	PrintConsole(&game, "Shutting down...");
 	DrawConsole(&game);
 	al_flip_display();
